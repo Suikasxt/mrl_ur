@@ -1,0 +1,12 @@
+<launch>
+
+  <param name="velocity_controller_name" value="joint_group_vel_controller" />
+  <include file="$(find ur_robot_driver)/launch/ur3_bringup.launch">\
+    <arg name="controllers" value="joint_state_controller joint_group_vel_controller"/>
+    <arg name="stopped_controllers" value="" />
+    <arg name="robot_ip" value="192.168.1.103" />
+    <arg name="kinematics_config" value="/home/suikasxt/my_robot_calibration.yaml" />
+  </include>
+
+  <node pkg="mrl_ur" name="joint_controller_pid" type="joint_controller_ddpg.py" output="screen"/>
+</launch>

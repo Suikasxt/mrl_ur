@@ -1,0 +1,12 @@
+<launch>
+
+  <include file="$(find ur_gazebo)/launch/ur3_bringup.launch">
+    <arg name="controller_config_file" value="$(find mrl_ur)/config/controllers.yaml"/>
+    <arg name="transmission_hw_interface" value="hardware_interface/VelocityJointInterface"/>
+    <arg name="controllers" value="joint_state_controller velocity_controllers"/>
+    <arg name="gazebo_world" value="$(find mrl_ur)/worlds/joint_controller.world"/>
+    <arg name="stopped_controllers" value="" />
+  </include>
+
+  <node pkg="mrl_ur" name="joint_controller_pid" type="joint_controller_pid.py" output="screen"/>
+</launch>

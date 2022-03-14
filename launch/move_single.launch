@@ -1,0 +1,24 @@
+<launch>
+
+  <arg name="train" default="false"/>
+  <param name="train" value="$(arg train)" />
+  <include file="$(find ur_gazebo)/launch/ur3_bringup.launch">
+    <arg name="controller_config_file" value="$(find mrl_ur)/config/controllers.yaml"/>
+    <arg name="transmission_hw_interface" value="hardware_interface/VelocityJointInterface"/>
+    <arg name="controllers" value="joint_state_controller velocity_controllers"/>
+    <arg name="gazebo_world" value="$(find mrl_ur)/worlds/move_single.world"/>
+    <arg name="stopped_controllers" value="" />
+  </include>
+
+  <node name="spawn_gazebo_testbox" pkg="gazebo_ros" type="spawn_model"
+    args="
+      -urdf
+      -file $(find mrl_ur)/config/testbox.urdf
+      -model test_box
+      -x 0.3
+      -y 0.3
+      -z 0.05"
+    output="screen" respawn="false" />
+
+  <node pkg="mrl_ur" name="joint_controller_pid" type="move_single_ddpg.py" output="screen"/>
+</launch>
